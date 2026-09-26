@@ -1,0 +1,13 @@
+-- No demo tenants are inserted here. Auth users must be created with the
+-- service role so raw_app_meta_data, not user-editable metadata, carries the role.
+--
+-- First admin, after the auth user exists:
+--   update public.profiles
+--   set role = 'admin', merchant_id = null
+--   where id = '<user-uuid>';
+--
+-- Merchant login, created through the admin API with:
+--   app_metadata: { "role": "merchant", "merchant_id": "<merchant-uuid>" }
+--   user_metadata: { "full_name": "Showroom manager" }
+-- The handle_new_user trigger copies that into public.profiles.
+-- Create the merchants row first. Branding is inserted by trigger.
