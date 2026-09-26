@@ -57,17 +57,17 @@ export default async function MerchantsPage({
             <li key={merchant.id}>
               <Link
                 href={`/admin/merchants/${merchant.id}`}
-                className="flex min-h-16 items-center justify-between gap-3 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
+                className="flex min-h-16 min-w-0 items-center justify-between gap-3 overflow-hidden rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
               >
-                <span className="min-w-0">
-                  <span className="flex items-center gap-2">
+                <span className="min-w-0 flex-1">
+                  <span className="flex min-w-0 items-center gap-2">
                     <span
                       className="size-2.5 shrink-0 rounded-full"
                       style={{ background: merchant.primaryColor ?? "#123c3e" }}
                     />
                     <span className="truncate text-sm font-medium">{merchant.name}</span>
                   </span>
-                  <span className="mt-1 block text-sm text-muted-foreground">
+                  <span className="mt-1 block truncate text-sm text-muted-foreground">
                     {merchant.username} · {formatDate(merchant.subscriptionStartsOn)} – {formatDate(merchant.subscriptionEndsOn)}
                   </span>
                 </span>

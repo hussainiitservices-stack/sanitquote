@@ -58,10 +58,10 @@ export default async function ClientsPage({
             <li key={client.id}>
               <Link
                 href={`/merchant/clients/${client.id}`}
-                className="grid min-h-16 gap-1 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
+                className="grid min-h-16 min-w-0 gap-1 overflow-hidden rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
               >
-                <span className="text-sm font-medium">{client.name}</span>
-                <span className="text-sm text-muted-foreground">
+                <span className="truncate text-sm font-medium">{client.name}</span>
+                <span className="truncate text-sm text-muted-foreground">
                   {[client.phone, client.city].filter(Boolean).join(" · ") || "No contact details"}
                 </span>
               </Link>

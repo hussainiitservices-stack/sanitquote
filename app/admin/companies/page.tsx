@@ -58,7 +58,7 @@ export default async function CompaniesPage({
             <li key={company.id}>
               <Link
                 href={`/admin/companies/${company.id}`}
-                className="flex min-h-16 items-center gap-3 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
+                className="flex min-h-16 min-w-0 items-center gap-3 overflow-hidden rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
               >
                 {company.logoPath ? (
                   <Image
@@ -66,10 +66,10 @@ export default async function CompaniesPage({
                     alt=""
                     width={40}
                     height={40}
-                    className="size-10 rounded-lg object-cover"
+                    className="size-10 shrink-0 rounded-lg object-cover"
                   />
                 ) : (
-                  <span className="flex size-10 items-center justify-center rounded-lg bg-muted text-sm font-medium">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-sm font-medium">
                     {company.name.slice(0, 1)}
                   </span>
                 )}

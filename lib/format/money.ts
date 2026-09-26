@@ -11,3 +11,13 @@ export function formatMoney(value: number | string, currency = "INR") {
     maximumFractionDigits: 2,
   }).format(asNumber(value))
 }
+
+/** Helvetica cannot draw ₹, so PDFs use an ASCII prefix. */
+export function formatPdfMoney(value: number | string, currency = "INR") {
+  const amount = new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(asNumber(value))
+  const code = currency.trim().toUpperCase() || "INR"
+  return code === "INR" ? `Rs ${amount}` : `${code} ${amount}`
+}

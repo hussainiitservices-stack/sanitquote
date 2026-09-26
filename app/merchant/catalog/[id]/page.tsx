@@ -33,24 +33,24 @@ export default async function CatalogProductPage({
         />
       ) : null}
       <dl className="grid gap-3 rounded-xl bg-card p-4 text-sm ring-1 ring-foreground/10">
-        <div className="flex justify-between gap-3">
-          <dt className="text-muted-foreground">Price</dt>
-          <dd className="font-medium">{formatMoney(product.listPrice, product.currency)}</dd>
+        <div className="flex min-w-0 justify-between gap-3">
+          <dt className="shrink-0 text-muted-foreground">Price</dt>
+          <dd className="truncate font-medium">{formatMoney(product.listPrice, product.currency)}</dd>
         </div>
-        <div className="flex justify-between gap-3">
-          <dt className="text-muted-foreground">Unit</dt>
-          <dd>{product.unit}</dd>
+        <div className="flex min-w-0 justify-between gap-3">
+          <dt className="shrink-0 text-muted-foreground">Unit</dt>
+          <dd className="truncate">{product.unit}</dd>
         </div>
         {product.category ? (
-          <div className="flex justify-between gap-3">
-            <dt className="text-muted-foreground">Category</dt>
-            <dd>{product.category}</dd>
+          <div className="flex min-w-0 justify-between gap-3">
+            <dt className="shrink-0 text-muted-foreground">Category</dt>
+            <dd className="truncate">{product.category}</dd>
           </div>
         ) : null}
         {product.finish ? (
-          <div className="flex justify-between gap-3">
-            <dt className="text-muted-foreground">Finish</dt>
-            <dd>{product.finish}</dd>
+          <div className="flex min-w-0 justify-between gap-3">
+            <dt className="shrink-0 text-muted-foreground">Finish</dt>
+            <dd className="truncate">{product.finish}</dd>
           </div>
         ) : null}
       </dl>

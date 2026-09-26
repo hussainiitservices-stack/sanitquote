@@ -27,7 +27,7 @@ export default async function MerchantHomePage() {
   return (
     <div className="grid gap-5">
       <header className="grid gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="text-2xl font-semibold tracking-tight break-words">
           {workspace?.branding?.displayName || workspace?.name || "Showroom"}
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -66,13 +66,13 @@ export default async function MerchantHomePage() {
               <li key={quote.id}>
                 <Link
                   href={`/merchant/quotations/${quote.id}`}
-                  className="grid gap-1 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
+                  className="grid min-w-0 gap-1 overflow-hidden rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
                 >
-                  <span className="flex items-center justify-between gap-3">
-                    <span className="text-sm font-medium">{quote.number}</span>
+                  <span className="flex min-w-0 items-center justify-between gap-3">
+                    <span className="truncate text-sm font-medium">{quote.number}</span>
                     <QuotationStatusBadge status={quote.status} />
                   </span>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="truncate text-sm text-muted-foreground">
                     {quote.clientName} · {formatDate(quote.issueDate)}
                   </span>
                   <span className="text-sm">{formatMoney(quote.total, quote.currency)}</span>

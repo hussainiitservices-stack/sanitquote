@@ -278,13 +278,13 @@ function SearchSelect({
                           onMouseEnter={() => setKeyboardIndex(index)}
                           onClick={() => choose(option.value)}
                           className={cn(
-                            "flex min-h-11 w-full items-center rounded-md px-3 text-left text-sm",
+                            "flex min-h-11 w-full min-w-0 items-center rounded-md px-3 text-left text-sm",
                             index === activeIndex || active
                               ? "bg-accent text-accent-foreground"
                               : "text-foreground",
                           )}
                         >
-                          {option.label}
+                          <span className="min-w-0 flex-1 truncate">{option.label}</span>
                         </button>
                       </li>
                     )

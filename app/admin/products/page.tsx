@@ -70,7 +70,7 @@ export default async function ProductsPage({
             <li key={product.id}>
               <Link
                 href={`/admin/products/${product.id}`}
-                className="flex min-h-16 items-center gap-3 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
+                className="flex min-h-16 min-w-0 items-center gap-3 overflow-hidden rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
               >
                 {product.imagePath ? (
                   <Image
@@ -78,10 +78,10 @@ export default async function ProductsPage({
                     alt=""
                     width={48}
                     height={48}
-                    className="size-12 rounded-lg object-cover"
+                    className="size-12 shrink-0 rounded-lg object-cover"
                   />
                 ) : (
-                  <span className="size-12 rounded-lg bg-muted" />
+                  <span className="size-12 shrink-0 rounded-lg bg-muted" />
                 )}
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-medium">{product.name}</span>
@@ -89,7 +89,7 @@ export default async function ProductsPage({
                     {product.companyName} · {product.sku}
                   </span>
                 </span>
-                <span className="grid justify-items-end gap-1">
+                <span className="grid shrink-0 justify-items-end gap-1">
                   <span className="text-sm font-medium">{formatMoney(product.listPrice, product.currency)}</span>
                   <ActiveBadge active={product.isActive} />
                 </span>

@@ -60,9 +60,9 @@ export function ProductPicker({
                     onOpenChange(false)
                     setQuery("")
                   }}
-                  className="flex min-h-14 w-full items-center justify-between gap-3 rounded-xl bg-card px-4 py-3 text-left ring-1 ring-foreground/10"
+                  className="flex min-h-14 w-full min-w-0 items-center justify-between gap-3 overflow-hidden rounded-xl bg-card px-4 py-3 text-left ring-1 ring-foreground/10"
                 >
-                  <span className="min-w-0">
+                  <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-medium">{product.name}</span>
                     <span className="block truncate text-sm text-muted-foreground">
                       {product.companyName} · {product.sku}

@@ -1,6 +1,6 @@
 import "server-only"
 
-import { merchantDb } from "@/lib/merchant/db"
+import { formatAddress, merchantDb } from "@/lib/merchant/db"
 import {
   isUuid,
   PAGE_SIZE,
@@ -9,7 +9,7 @@ import {
   toPage,
   type Page,
 } from "@/lib/admin/result"
-import { isQuotationStatus } from "@/lib/domain/quotations"
+import { isQuotationStatus, quotationIsFrozen } from "@/lib/domain/quotations"
 import { asNumber } from "@/lib/format/money"
 import { toQuotationDocument, type QuotationDocument } from "@/lib/pdf/quotation-document"
 import type { QuotationStatus } from "@/types/database"
@@ -369,6 +369,23 @@ export async function getQuotationDocument(id: string): Promise<QuotationDocumen
     throw new Error("Could not load the quotation.")
   }
 
+  const { data: liveBranding } = await supabase
+    .from("merchant_branding")
+    .select(
+      "display_name, logo_path, address, city, state, pincode, phone, email, gstin, website, footer_note, primary_color, secondary_color, accent_color",
+    )
+    .eq("merchant_id", data.merchant_id)
+    .maybeSingle()
+
+  const liveAddress = formatAddress([
+    liveBranding?.address,
+    liveBranding?.city,
+    liveBranding?.state,
+    liveBranding?.pincode,
+  ])
+  const frozen = quotationIsFrozen(data.status)
+  const company = <T,>(snapshot: T, live: T) => (frozen ? snapshot ?? live : live ?? snapshot)
+
   const missingImageIds = [
     ...new Set(
       (items ?? [])
@@ -396,17 +413,17 @@ export async function getQuotationDocument(id: string): Promise<QuotationDocumen
     notes: data.notes,
     terms: data.terms,
     merchant: {
-      displayName: data.branding_display_name,
-      logoPath: data.branding_logo_path,
-      primaryColor: data.branding_primary_color,
-      secondaryColor: data.branding_secondary_color,
-      accentColor: data.branding_accent_color,
-      phone: data.branding_phone,
-      email: data.branding_email,
-      address: data.branding_address,
-      gstin: data.branding_gstin,
-      website: data.branding_website,
-      footerNote: data.branding_footer_note,
+      displayName: company(data.branding_display_name, liveBranding?.display_name) || "Showroom",
+      logoPath: company(data.branding_logo_path, liveBranding?.logo_path) ?? null,
+      primaryColor: company(data.branding_primary_color, liveBranding?.primary_color) ?? null,
+      secondaryColor: company(data.branding_secondary_color, liveBranding?.secondary_color) ?? null,
+      accentColor: company(data.branding_accent_color, liveBranding?.accent_color) ?? null,
+      phone: company(data.branding_phone, liveBranding?.phone) ?? null,
+      email: company(data.branding_email, liveBranding?.email) ?? null,
+      address: company(data.branding_address, liveAddress) ?? null,
+      gstin: company(data.branding_gstin, liveBranding?.gstin) ?? null,
+      website: company(data.branding_website, liveBranding?.website) ?? null,
+      footerNote: company(data.branding_footer_note, liveBranding?.footer_note) ?? null,
     },
     client: {
       name: data.client_name,

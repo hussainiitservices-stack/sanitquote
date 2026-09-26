@@ -8,11 +8,11 @@ export function PageHeader({
   action?: React.ReactNode
 }) {
   return (
-    <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-      <div className="grid gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+    <header className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div className="grid min-w-0 gap-1">
+        <h1 className="text-2xl font-semibold tracking-tight break-words">{title}</h1>
         {description ? (
-          <p className="max-w-xl text-sm text-muted-foreground">{description}</p>
+          <p className="max-w-xl text-sm break-words text-muted-foreground">{description}</p>
         ) : null}
       </div>
       {action}

@@ -69,12 +69,12 @@ export default async function AdminHomePage() {
           <ul className="grid gap-2">
             {stats.recent.map((quote) => (
               <li key={quote.id}>
-                <Link href={`/admin/quotations/${quote.id}`} className="grid gap-1 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10">
-                  <span className="flex items-center justify-between gap-3">
-                    <span className="text-sm font-medium">{quote.quotation_number}</span>
+                <Link href={`/admin/quotations/${quote.id}`} className="grid min-w-0 gap-1 overflow-hidden rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10">
+                  <span className="flex min-w-0 items-center justify-between gap-3">
+                    <span className="truncate text-sm font-medium">{quote.quotation_number}</span>
                     <QuotationStatusBadge status={quote.status} />
                   </span>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="truncate text-sm text-muted-foreground">
                     {quote.client_name} · {quote.merchantName}
                   </span>
                   <span className="text-sm">{formatMoney(quote.total, quote.currency)}</span>

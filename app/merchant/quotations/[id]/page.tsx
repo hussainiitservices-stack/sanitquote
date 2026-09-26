@@ -108,15 +108,15 @@ export default async function QuotationDetailPage({
       <ul className="grid gap-2">
         {record.items.map((item) => (
           <li key={item.id} className="rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-sm font-medium">{item.productName}</p>
-                <p className="text-sm text-muted-foreground">
+            <div className="flex min-w-0 items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium">{item.productName}</p>
+                <p className="truncate text-sm text-muted-foreground">
                   {item.companyName}
                   {item.sku ? ` · ${item.sku}` : ""}
                 </p>
               </div>
-              <p className="text-sm font-medium">{formatMoney(item.lineTotal, record.currency)}</p>
+              <p className="shrink-0 text-sm font-medium">{formatMoney(item.lineTotal, record.currency)}</p>
             </div>
             <p className="mt-2 text-sm text-muted-foreground">
               {item.quantity} {item.unit} × {formatMoney(item.unitPrice, record.currency)}

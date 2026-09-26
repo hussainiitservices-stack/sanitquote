@@ -54,7 +54,7 @@ export function AppShell({
   const moreActive = moreItems.some((item) => isActive(pathname, item))
 
   return (
-    <div className="min-h-dvh bg-background">
+    <div className="h-dvh overflow-hidden bg-background md:h-auto md:min-h-dvh md:overflow-visible">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-background focus:px-3 focus:py-2"
@@ -89,34 +89,35 @@ export function AppShell({
         </div>
       </aside>
 
-      <div className="flex min-h-dvh flex-col md:pl-60">
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur md:px-8">
-          <div className="min-w-0 md:hidden">
-            <p className="text-[11px] font-medium tracking-wide text-muted-foreground">
-              {section}
-            </p>
-            <p className="truncate text-sm font-semibold">{brand}</p>
-          </div>
-          <div className="ml-auto">
-            <Avatar>
-              <AvatarFallback>{initial(user.name, user.email)}</AvatarFallback>
-            </Avatar>
+      <div className="flex h-full min-w-0 flex-col md:h-auto md:min-h-dvh md:pl-60">
+        <header className="z-20 shrink-0 bg-background/95 backdrop-blur md:sticky md:top-0">
+          <div aria-hidden className="h-[env(safe-area-inset-top)] bg-primary md:hidden" />
+          <div className="flex h-14 items-center gap-3 border-b px-4 md:px-8">
+            <div className="min-w-0 md:hidden">
+              <p className="text-[11px] font-medium tracking-wide text-muted-foreground">
+                {section}
+              </p>
+              <p className="truncate text-sm font-semibold">{brand}</p>
+            </div>
+            <div className="ml-auto">
+              <Avatar>
+                <AvatarFallback>{initial(user.name, user.email)}</AvatarFallback>
+              </Avatar>
+            </div>
           </div>
         </header>
         {banner ? (
-          <p className="border-b bg-accent px-4 py-3 text-sm text-accent-foreground md:px-8">
+          <p className="shrink-0 border-b bg-accent px-4 py-3 text-sm text-accent-foreground md:px-8">
             {banner}
           </p>
         ) : null}
         <main
           id="main"
-          className="flex-1 px-4 py-5 pb-[calc(5.75rem+env(safe-area-inset-bottom))] md:px-8 md:pb-8"
+          className="min-h-0 min-w-0 flex-1 overflow-x-clip overflow-y-auto px-4 py-5 md:overflow-visible md:px-8 md:pb-8"
         >
           {children}
         </main>
-      </div>
-
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+        <nav className="z-30 shrink-0 border-t bg-background pb-[env(safe-area-inset-bottom)] md:hidden">
         <ul
           className="grid"
           style={{ gridTemplateColumns: `repeat(${items.length + 1}, minmax(0, 1fr))` }}
@@ -130,12 +131,12 @@ export function AppShell({
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex min-h-14 flex-col items-center justify-center gap-1 px-1 text-[11px] font-medium",
+                    "flex h-14 min-w-0 flex-col items-center justify-center gap-1 px-1 text-[11px] font-medium",
                     active ? "text-primary" : "text-muted-foreground",
                   )}
                 >
                   <Icon />
-                  {item.label}
+                  <span className="w-full truncate text-center">{item.label}</span>
                 </Link>
               </li>
             )
@@ -145,13 +146,14 @@ export function AppShell({
               items={moreItems}
               user={user}
               triggerClassName={cn(
-                "flex min-h-14 w-full flex-col items-center justify-center gap-1 px-1 text-[11px] font-medium",
+                "flex h-14 min-w-0 w-full flex-col items-center justify-center gap-1 px-1 text-[11px] font-medium",
                 moreActive ? "text-primary" : "text-muted-foreground",
               )}
             />
           </li>
         </ul>
-      </nav>
+        </nav>
+      </div>
     </div>
   )
 }

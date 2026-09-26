@@ -10,7 +10,7 @@ const points = [
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-lg flex-col justify-between px-5 py-8">
+    <main className="mx-auto flex min-h-dvh w-full max-w-lg flex-col justify-between overflow-x-clip px-5 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))]">
       <p className="text-sm font-semibold tracking-wide text-primary">SanitQuote</p>
       <div className="grid gap-6 py-12">
         <h1 className="text-4xl font-semibold tracking-tight text-balance">

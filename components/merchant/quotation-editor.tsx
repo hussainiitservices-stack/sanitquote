@@ -105,7 +105,7 @@ export function QuotationEditor({
   })
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start" noValidate>
+    <form onSubmit={onSubmit} className="grid gap-4" noValidate>
       <div className="grid gap-4">
         {form.formState.errors.root?.message ? (
           <p className="text-sm text-destructive" role="alert">
@@ -137,17 +137,17 @@ export function QuotationEditor({
           <ul className="grid gap-3">
             {lines.map((line) => (
               <li key={line.key} className="grid gap-3 rounded-xl bg-muted/40 p-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-medium">{line.productName || "Product"}</p>
-                    <p className="text-sm text-muted-foreground">
+                <div className="flex min-w-0 items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{line.productName || "Product"}</p>
+                    <p className="truncate text-sm text-muted-foreground">
                       {line.companyName}
                       {line.sku ? ` · ${line.sku}` : ""}
                     </p>
                   </div>
                   <button
                     type="button"
-                    className="text-sm font-medium text-destructive"
+                    className="shrink-0 text-sm font-medium text-destructive"
                     onClick={() => setLines((current) => current.filter((item) => item.key !== line.key))}
                   >
                     Remove
@@ -198,38 +198,37 @@ export function QuotationEditor({
           <TextAreaField label="Notes" {...form.register("notes")} />
           <TextAreaField label="Terms" {...form.register("terms")} />
         </FormSection>
-      </div>
 
-      <div className="sticky bottom-[5.5rem] z-10 grid gap-3 rounded-xl bg-card p-4 ring-1 ring-foreground/10 md:bottom-4 lg:top-20">
-        <p className="text-sm font-medium">Totals</p>
-        <dl className="grid gap-2 text-sm">
-          <div className="flex justify-between">
-            <dt className="text-muted-foreground">Subtotal</dt>
-            <dd>{formatMoney(preview.subtotal, currency)}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-muted-foreground">Discount</dt>
-            <dd>{formatMoney(preview.discount, currency)}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-muted-foreground">Tax</dt>
-            <dd>{formatMoney(preview.tax, currency)}</dd>
-          </div>
-          <div className="flex justify-between text-base font-medium">
-            <dt>Total</dt>
-            <dd>{formatMoney(preview.grandTotal, currency)}</dd>
-          </div>
-        </dl>
-        {canWrite ? (
-          <Button type="submit" className="h-11" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? "Saving…" : values.id ? "Save draft" : "Create draft"}
-          </Button>
-        ) : (
-          <p className="text-sm text-muted-foreground">This subscription is not active, so quotations stay locked.</p>
-        )}
-        {values.id && canWrite ? (
-          <DeleteButton label="Delete draft" onConfirm={() => deleteQuotation(values.id!)} />
-        ) : null}
+        <FormSection title="Totals">
+          <dl className="grid gap-2 text-sm">
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Subtotal</dt>
+              <dd>{formatMoney(preview.subtotal, currency)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Discount</dt>
+              <dd>{formatMoney(preview.discount, currency)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Tax</dt>
+              <dd>{formatMoney(preview.tax, currency)}</dd>
+            </div>
+            <div className="flex justify-between text-base font-medium">
+              <dt>Total</dt>
+              <dd>{formatMoney(preview.grandTotal, currency)}</dd>
+            </div>
+          </dl>
+          {canWrite ? (
+            <Button type="submit" className="h-11" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? "Saving…" : values.id ? "Save draft" : "Create draft"}
+            </Button>
+          ) : (
+            <p className="text-sm text-muted-foreground">This subscription is not active, so quotations stay locked.</p>
+          )}
+          {values.id && canWrite ? (
+            <DeleteButton label="Delete draft" onConfirm={() => deleteQuotation(values.id!)} />
+          ) : null}
+        </FormSection>
       </div>
 
       <ProductPicker

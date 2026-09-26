@@ -1,7 +1,7 @@
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 
 import { formatDate } from "@/lib/format/date"
-import { formatMoney } from "@/lib/format/money"
+import { formatPdfMoney } from "@/lib/format/money"
 import type { QuotationDocument } from "@/lib/pdf/quotation-document"
 
 export function QuotationPdf({
@@ -79,6 +79,7 @@ export function QuotationPdf({
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <View style={styles.brand}>
+            <Text style={styles.label}>From</Text>
             {logoSrc ? (
               // react-pdf Image has no accessible alt text API.
               // eslint-disable-next-line jsx-a11y/alt-text
@@ -88,7 +89,10 @@ export function QuotationPdf({
             {quote.merchant.address ? <Text style={styles.muted}>{quote.merchant.address}</Text> : null}
             {quote.merchant.phone ? <Text style={styles.muted}>{quote.merchant.phone}</Text> : null}
             {quote.merchant.email ? <Text style={styles.muted}>{quote.merchant.email}</Text> : null}
-            {quote.merchant.gstin ? <Text style={styles.muted}>GSTIN {quote.merchant.gstin}</Text> : null}
+            {quote.merchant.website ? <Text style={styles.muted}>{quote.merchant.website}</Text> : null}
+            <Text style={styles.muted}>
+              {quote.merchant.gstin ? `GSTIN ${quote.merchant.gstin}` : "GSTIN —"}
+            </Text>
           </View>
           <View style={styles.meta}>
             <Text style={styles.title}>Quotation</Text>
@@ -141,28 +145,28 @@ export function QuotationPdf({
             <Text style={styles.colQty}>
               {item.quantity} {item.unit}
             </Text>
-            <Text style={styles.colPrice}>{formatMoney(item.unitPrice, quote.currency)}</Text>
-            <Text style={styles.colDisc}>{formatMoney(item.discountAmount, quote.currency)}</Text>
-            <Text style={styles.colTotal}>{formatMoney(item.lineTotal, quote.currency)}</Text>
+            <Text style={styles.colPrice}>{formatPdfMoney(item.unitPrice, quote.currency)}</Text>
+            <Text style={styles.colDisc}>{formatPdfMoney(item.discountAmount, quote.currency)}</Text>
+            <Text style={styles.colTotal}>{formatPdfMoney(item.lineTotal, quote.currency)}</Text>
           </View>
         ))}
 
         <View style={styles.totals}>
           <View style={styles.totalRow}>
             <Text>Subtotal</Text>
-            <Text>{formatMoney(quote.totals.subtotal, quote.currency)}</Text>
+            <Text>{formatPdfMoney(quote.totals.subtotal, quote.currency)}</Text>
           </View>
           <View style={styles.totalRow}>
             <Text>Discount</Text>
-            <Text>{formatMoney(quote.totals.discount, quote.currency)}</Text>
+            <Text>{formatPdfMoney(quote.totals.discount, quote.currency)}</Text>
           </View>
           <View style={styles.totalRow}>
             <Text>Tax</Text>
-            <Text>{formatMoney(quote.totals.tax, quote.currency)}</Text>
+            <Text>{formatPdfMoney(quote.totals.tax, quote.currency)}</Text>
           </View>
           <View style={styles.totalRow}>
             <Text style={styles.grand}>Total</Text>
-            <Text style={styles.grand}>{formatMoney(quote.totals.grandTotal, quote.currency)}</Text>
+            <Text style={styles.grand}>{formatPdfMoney(quote.totals.grandTotal, quote.currency)}</Text>
           </View>
         </View>
 

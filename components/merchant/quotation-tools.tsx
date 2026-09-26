@@ -1,5 +1,6 @@
 "use client"
 
+import { Check, Copy, Download, Share2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
@@ -53,21 +54,25 @@ export function QuotationTools({
   }
 
   return (
-    <div className="grid gap-3">
-      <div className="grid gap-2 sm:grid-cols-2">
-        <Button asChild className="h-11">
-          <a href={pdfHref}>Download PDF</a>
+    <div className="grid gap-2">
+      <div className="grid grid-cols-2 gap-2">
+        <Button asChild variant="secondary" className="h-11">
+          <a href={pdfHref}>
+            <Download />
+            Download
+          </a>
         </Button>
         <Button type="button" variant="secondary" className="h-11" onClick={() => void share()}>
+          <Share2 />
           Share
         </Button>
       </div>
       {canWrite ? (
-        <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-end gap-2">
           <SelectField
             label="Status"
             value={nextStatus}
-            onValueChange={(status) => setNextStatus(status as QuotationStatus)}
+            onValueChange={(value) => setNextStatus(value as QuotationStatus)}
           >
             {QUOTATION_STATUSES.map((value) => (
               <option key={value} value={value}>
@@ -78,8 +83,11 @@ export function QuotationTools({
           <Button
             type="button"
             variant="secondary"
-            className="h-11"
+            size="icon"
+            className="h-11 w-11"
             disabled={pending || nextStatus === status}
+            aria-label={pending ? "Updating status" : "Update status"}
+            title="Update status"
             onClick={() => {
               startTransition(async () => {
                 const result = await setQuotationStatus({ id, status: nextStatus })
@@ -92,30 +100,31 @@ export function QuotationTools({
               })
             }}
           >
-            {pending ? "Updating…" : "Update status"}
+            <Check />
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-11 w-11"
+            disabled={pending}
+            aria-label="Duplicate as draft"
+            title="Duplicate as draft"
+            onClick={() => {
+              startTransition(async () => {
+                const result = await duplicateQuotation(id)
+                if (!result.ok) {
+                  setMessage(result.message)
+                  return
+                }
+                toast.success(result.message)
+                if (result.href) router.push(result.href)
+              })
+            }}
+          >
+            <Copy />
           </Button>
         </div>
-      ) : null}
-      {canWrite ? (
-        <Button
-          type="button"
-          variant="outline"
-          className="h-11"
-          disabled={pending}
-          onClick={() => {
-            startTransition(async () => {
-              const result = await duplicateQuotation(id)
-              if (!result.ok) {
-                setMessage(result.message)
-                return
-              }
-              toast.success(result.message)
-              if (result.href) router.push(result.href)
-            })
-          }}
-        >
-          Duplicate as draft
-        </Button>
       ) : null}
       {message ? (
         <p className="text-sm text-destructive" role="alert">

@@ -75,13 +75,13 @@ export default async function QuotationsPage({
             <li key={quote.id}>
               <Link
                 href={`/admin/quotations/${quote.id}`}
-                className="grid gap-1 rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
+                className="grid min-w-0 gap-1 overflow-hidden rounded-xl bg-card px-4 py-3 ring-1 ring-foreground/10"
               >
-                <span className="flex items-center justify-between gap-3">
-                  <span className="text-sm font-medium">{quote.number}</span>
+                <span className="flex min-w-0 items-center justify-between gap-3">
+                  <span className="truncate text-sm font-medium">{quote.number}</span>
                   <QuotationStatusBadge status={quote.status} />
                 </span>
-                <span className="text-sm text-muted-foreground">
+                <span className="truncate text-sm text-muted-foreground">
                   {quote.clientName} · {quote.merchantName}
                 </span>
                 <span className="flex items-center justify-between text-sm">
