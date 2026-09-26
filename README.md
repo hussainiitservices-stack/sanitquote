@@ -1,5 +1,5 @@
 # SanitQuote
-
+ 
 Mobile-first workspace for sanitaryware quotations. Admins keep one product catalog. Each merchant quotes only from the brands they are allowed to use, and their clients, sites, and quotations stay on their own account.
 
 ## Stack
